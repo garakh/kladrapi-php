@@ -1,6 +1,15 @@
 <?php
 namespace Kladr;
 
+/**
+ * Объект КЛАДР
+ * @property-read string $Id Идентификатор объекта
+ * @property-read string $Name Название объекта
+ * @property-read string $Zip Почтовый индекс объекта
+ * @property-read string $Type Тип объекта полностью (область, район)
+ * @property-read string $TypeShort Тип объекта коротко (обл, р-н)
+ * @property-read Object[] $Parents Массив родительских объектов
+ */
 class Object {
     private $id;
     private $name;
@@ -9,18 +18,18 @@ class Object {
     private $typeShort;
     private $arParents;
     
-    public function __construct($arObject) {
-        $this->id = $arObject['id'];
-        $this->name = $arObject['name'];
-        $this->zip = $arObject['zip'];
-        $this->type = $arObject['type'];
-        $this->typeShort = $arObject['typeShort'];
+    public function __construct($obObject) {
+        $this->id = $obObject->id;
+        $this->name = $obObject->name;
+        $this->zip = $obObject->zip;
+        $this->type = $obObject->type;
+        $this->typeShort = $obObject->typeShort;
         
         $this->arParents = array();
         
-        if(isset($arObject['parents'])){
-            foreach($arObject['parents'] as $arParent){
-                $this->arParents[] = new Object($arParent);
+        if(isset($obObject->parents)){
+            foreach($obObject->parents as $obParent){
+                $this->arParents[] = new Object($obParent);
             }
         }
     }
