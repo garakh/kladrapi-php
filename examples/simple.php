@@ -1,5 +1,5 @@
 <?php
-include '../kladr/autoload.php';
+include '../kladr.php';
 
 $api = new Kladr\Api('51dfe5d42fb2b43e3300006e', '86a2c2a06f1b2451a87d05512cc2c3edfdf41969');
 
