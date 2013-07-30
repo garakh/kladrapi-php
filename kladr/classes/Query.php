@@ -52,7 +52,7 @@ class Query {
         
         if($this->contentName){
             if(!empty($string)) $string .= '&';
-            $string .= 'query' . $this->contentName; 
+            $string .= 'query' . urlencode($this->contentName); 
         }
         
         if($this->contentType){
