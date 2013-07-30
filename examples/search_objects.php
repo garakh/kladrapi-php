@@ -1,5 +1,5 @@
 <?php
-include '../kladr/autoload.php';
+include '../kladr.php';
 
 use Kladr\Api;
 use Kladr\Query;
