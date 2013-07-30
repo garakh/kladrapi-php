@@ -2,7 +2,9 @@
 namespace Kladr;
 
 class ObjectType {
-    public static function Test(){
-        print 'ObjectType::Test';
-    }
+    const Region = 'region';
+    const District = 'district';
+    const City = 'city';
+    const Street = 'street';
+    const Building = 'building';
 }
