@@ -72,6 +72,7 @@ class Api {
                 'zip' => $obObject->zip,
                 'type' => $obObject->type,
                 'typeShort' => $obObject->typeShort,
+                'okato' => $obObject->okato,
             );
             
             if(isset($obObject->parents)){
@@ -83,6 +84,7 @@ class Api {
                         'zip' => $arParent->zip,
                         'type' => $arParent->type,
                         'typeShort' => $arParent->typeShort,
+                        'okato' => $arParent->okato,
                     );
                 }
             }
@@ -124,6 +126,7 @@ class Api {
  * @property-read string $Zip Почтовый индекс объекта
  * @property-read string $Type Тип объекта полностью (область, район)
  * @property-read string $TypeShort Тип объекта коротко (обл, р-н)
+ * @property-read string $Okato ОКАТО объекта
  * @property-read Object[] $Parents Массив родительских объектов
  */
 class Object {
@@ -132,6 +135,7 @@ class Object {
     private $zip;
     private $type;
     private $typeShort;
+    private $okato;
     private $arParents;
     
     public function __construct($obObject) {
@@ -140,6 +144,7 @@ class Object {
         $this->zip = $obObject->zip;
         $this->type = $obObject->type;
         $this->typeShort = $obObject->typeShort;
+        $this->okato = $obObject->okato;
         
         $this->arParents = array();
         
@@ -157,6 +162,7 @@ class Object {
             case 'Zip': return $this->zip;
             case 'Type': return $this->type;
             case 'TypeShort': return $this->typeShort;
+            case 'Okato': return $this->okato;
             case 'Parents': return $this->arParents;
         }
     }
