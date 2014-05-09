@@ -45,7 +45,9 @@ class Api {
         $url = $this->GetURL($query);
         if(!$url) return false;        
         
-        $result = file_get_contents($url);
+        $context = stream_context_create(array('http' => array('header'=>'Connection: close\r\n')));
+        
+        $result = file_get_contents($url, false, $context);
         
         if(preg_match('/Error: (.*)/', $result, $matches)){
             $this->error = $matches[1];
