@@ -10,8 +10,12 @@ class Api {
     private $key;
     
     private $error;
-    
-    public function __construct($token, $key) {
+
+	/**
+	 * @param string $token
+	 * @param string $key
+	 */
+	public function __construct($token, $key) {
         $this->token = $token;
         $this->key = $key;
         $this->error = null;
@@ -36,12 +40,13 @@ class Api {
         return 'http://kladr-api.ru/api.php?' . $query . '&token=' . $this->token . '&key=' . $this->key;
     }
     
-    /**
-     * Возвращает результат запроса к сервису в виде объекта Json
-     * @param \Kladr\Query $query Объект запроса
-     * @return mixed|boolean
-     */
-    public function QueryToJson(Query $query){
+	/**
+	 * Возвращает результат запроса к сервису
+	 * @param \Kladr\Query $query Объект запроса
+	 * @param bool  $assoc Вернуть ответ в виде ассоциативного массива
+	 * @return bool|mixed
+	 */
+	public function QueryToJson(Query $query, $assoc = false){
         $url = $this->GetURL($query);
         if(!$url) return false;        
         
@@ -54,7 +59,7 @@ class Api {
             return false;
         }
         
-        return json_decode($result);
+        return json_decode($result, $assoc);
     }
     
     /**
@@ -62,45 +67,15 @@ class Api {
      * @param \Kladr\Query $query Объект запроса
      * @return array
      */
-    public function QueryToArray(Query $query){       
-        $obResult = $this->QueryToJson($query);        
-        if(!$obResult) return array();
-        
-        $arResult = array();        
-        foreach($obResult->result as $obObject){
-            $arObject = array(
-                'id' => $obObject->id,
-                'name' => $obObject->name,
-                'zip' => $obObject->zip,
-                'type' => $obObject->type,
-                'typeShort' => $obObject->typeShort,
-                'okato' => $obObject->okato,
-            );
-            
-            if(isset($obObject->parents)){
-                $arObject['parents'] = array();
-                foreach($obObject->parents as $arParent){
-                     $arObject['parents'][] = array(
-                        'id' => $arParent->id,
-                        'name' => $arParent->name,
-                        'zip' => $arParent->zip,
-                        'type' => $arParent->type,
-                        'typeShort' => $arParent->typeShort,
-                        'okato' => $arParent->okato,
-                    );
-                }
-            }
-            
-            $arResult[] = $arObject;
-        }
-        
-        return $arResult;
+    public function QueryToArray(Query $query){
+		$arr = $this->QueryToJson($query, true);
+		return $arr['result'];
     }
     
     /**
      * Возвращает результат запроса к сервису в виде массива объектов
      * @param \Kladr\Query $query Объект запроса
-     * @return Object[]
+     * @return \Kladr\Object[]
      */
     public function QueryToObjects(Query $query){
         $obResult = $this->QueryToJson($query);        
@@ -128,8 +103,9 @@ class Api {
  * @property-read string $Zip Почтовый индекс объекта
  * @property-read string $Type Тип объекта полностью (область, район)
  * @property-read string $TypeShort Тип объекта коротко (обл, р-н)
+ * @property-read string $ContentType Тип объекта из перечисления ObjectType
  * @property-read string $Okato ОКАТО объекта
- * @property-read Object[] $Parents Массив родительских объектов
+ * @property-read \Kladr\Object[] $Parents Массив родительских объектов
  */
 class Object {
     private $id;
@@ -138,15 +114,20 @@ class Object {
     private $type;
     private $typeShort;
     private $okato;
+	private $contentType;
     private $arParents;
-    
-    public function __construct($obObject) {
+
+	/**
+	 * @param $obObject
+	 */
+	public function __construct($obObject) {
         $this->id = $obObject->id;
         $this->name = $obObject->name;
         $this->zip = $obObject->zip;
         $this->type = $obObject->type;
         $this->typeShort = $obObject->typeShort;
         $this->okato = $obObject->okato;
+		$this->contentType = $obObject->contentType;
         
         $this->arParents = array();
         
@@ -165,6 +146,7 @@ class Object {
             case 'Type': return $this->type;
             case 'TypeShort': return $this->typeShort;
             case 'Okato': return $this->okato;
+			case 'ContentType': return $this->contentType;
             case 'Parents': return $this->arParents;
         }
     }
