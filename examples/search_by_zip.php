@@ -6,13 +6,11 @@ $api = new Kladr\Api('51dfe5d42fb2b43e3300006e', '86a2c2a06f1b2451a87d05512cc2c3
 
 // Формирование запроса
 $query              = new Kladr\Query();
-$query->ContentName = 'А';
-$query->ParentType  = Kladr\ObjectType::City;
-$query->ParentId    = "2900000100000";
-$query->ContentType = Kladr\ObjectType::Street;
+$query->Zip         = '186500';
+$query->ContentType = Kladr\ObjectType::Building;
 
 $query->WithParent = TRUE;
-$query->Limit      = 2;
+$query->Limit      = 1;
 
 // Получение данных в виде ассоциативного массива
 $arResult = $api->QueryToArray($query);
