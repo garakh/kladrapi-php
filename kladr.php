@@ -87,6 +87,13 @@ class Api
 		$obResult = $this->QueryToJson($query);
 		if (! $obResult) return array();
 
+		if (isset($obResult->searchContext->oneString)) {
+			$this->error = 'Возвращение результата в виде объектов при ' .
+			'поиске по всему адресу (одной строкой) невозможен';
+
+			return array();
+		}
+
 		$arObjects = array();
 		foreach ($obResult->result as $obObject) {
 			$arObjects[] = new Object($obObject);
@@ -209,6 +216,7 @@ class ObjectType
  * @property string  $ContentType Тип искомых объектов (регион, район, город)
  * @property string  $ContentName Название искомого объекта (частично либо полностью)
  * @property string  $Zip         Почтовый индекс
+ * @property boolean $OneString   Выполнить поиск по полной записи адреса, одной строкой
  * @property boolean $WithParent  Получить объекты вместе с родителями
  * @property integer $Limit       Ограничение количества возвращаемых объектов
  */
@@ -222,6 +230,7 @@ class Query
 
 	private $zip;
 
+	private $oneString;
 	private $withParent;
 	private $limit;
 
@@ -232,6 +241,7 @@ class Query
 		$this->contentType = NULL;
 		$this->contentName = NULL;
 		$this->zip         = NULL;
+		$this->oneString   = NULL;
 		$this->withParent  = NULL;
 		$this->limit       = NULL;
 	}
@@ -249,6 +259,8 @@ class Query
 				return $this->contentName;
 			case 'Zip':
 				return $this->zip;
+			case 'OneString':
+				return $this->oneString;
 			case 'WithParent':
 				return $this->withParent;
 			case 'Limit':
@@ -275,6 +287,9 @@ class Query
 				break;
 			case 'Zip':
 				$this->zip = $value;
+				break;
+			case 'OneString':
+				$this->oneString = $value;
 				break;
 			case 'WithParent':
 				$this->withParent = $value;
@@ -306,6 +321,11 @@ class Query
 		if ($this->zip) {
 			if (! empty($string)) $string .= '&';
 			$string .= 'zip=' . $this->zip;
+		}
+
+		if ($this->oneString) {
+			if (! empty($string)) $string .= '&';
+			$string .= 'oneString=1';
 		}
 
 		if ($this->withParent) {
