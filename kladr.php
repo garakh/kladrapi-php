@@ -24,7 +24,7 @@ class Api
 		$this->error = NULL;
 		$this->domain = 'http://kladr-api.ru/';
 		if($domain)
-			$this->domain = domain;
+			$this->domain = $domain;
 	}
 
 	private function GetURL(Query $query)
