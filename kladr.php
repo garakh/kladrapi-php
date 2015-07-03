@@ -9,6 +9,7 @@ class Api
 {
 	private $token;
 	private $key;
+	private $domain;
 
 	private $error;
 
@@ -16,11 +17,14 @@ class Api
 	 * @param string $token
 	 * @param string $key
 	 */
-	public function __construct($token, $key)
+	public function __construct($token, $key, $domain = false)
 	{
 		$this->token = $token;
 		$this->key   = $key;
 		$this->error = NULL;
+		$this->domain = 'http://kladr-api.ru/';
+		if($domain)
+			$this->domain = domain;
 	}
 
 	private function GetURL(Query $query)
@@ -30,17 +34,12 @@ class Api
 			return FALSE;
 		}
 
-		if (empty($this->key)) {
-			$this->error = 'Ключ не может быть пустым';
-			return FALSE;
-		}
-
 		if (empty($query)) {
 			$this->error = 'Объект запроса не может быть пустым';
 			return FALSE;
 		}
 
-		return 'http://kladr-api.ru/api.php?' . $query . '&token=' . $this->token . '&key=' . $this->key;
+		return $this->domain . 'api.php?' . $query . '&token=' . $this->token;
 	}
 
 	/**
