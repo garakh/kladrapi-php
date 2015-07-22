@@ -1,5 +1,6 @@
 <?php
-include '../kladr.php';
+
+require __DIR__ . '/../vendor/autoload.php';
 
 use Kladr\Api;
 use Kladr\Query;
