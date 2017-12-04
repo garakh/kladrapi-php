@@ -1,0 +1,21 @@
+{
+  "name": "garakh/kladrapi-php",
+  "description": "PHP API for http://kladr-api.ru",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Iliya Garakh",
+      "email": "garakh@primepix.ru"
+    },
+    {
+      "name": "Alexandr Yakovlev",
+      "email": "xescoder@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Kladr\\": "src/"
+    }
+  },
+  "require": {}
+}
