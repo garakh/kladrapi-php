@@ -27,6 +27,8 @@ class Query
     private $withParent;
     private $limit;
 
+    private $typeCode;
+
     public function __construct()
     {
         $this->parentType  = NULL;
@@ -37,6 +39,7 @@ class Query
         $this->oneString   = NULL;
         $this->withParent  = NULL;
         $this->limit       = NULL;
+        $this->typeCode    = NULL;
     }
 
     public function __get($name)
@@ -58,6 +61,8 @@ class Query
                 return $this->withParent;
             case 'Limit':
                 return $this->limit;
+            case 'TypeCode':
+                return $this->typeCode;
             default:
                 NULL;
         }
@@ -89,6 +94,9 @@ class Query
                 break;
             case 'Limit':
                 $this->limit = $value;
+                break;
+            case 'TypeCode':
+                $this->typeCode = $value;
                 break;
         }
     }
@@ -129,6 +137,11 @@ class Query
         if ($this->limit) {
             if (! empty($string)) $string .= '&';
             $string .= 'limit=' . $this->limit;
+        }
+
+        if ($this->typeCode) {
+            if (! empty($string)) $string .= '&';
+            $string .= 'typeCode=' . $this->typeCode;
         }
 
         return $string;
