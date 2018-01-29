@@ -97,7 +97,7 @@ class Api
 
         $arObjects = array();
         foreach ($obResult->result as $obObject) {
-            $arObjects[] = new Object($obObject);
+            $arObjects[] = new ObjectKladr($obObject);
         }
 
         return $arObjects;

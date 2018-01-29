@@ -36,7 +36,7 @@ PHP API "КЛАДР в облаке"
 
 
 
-**Kladr\Object**
+**Kladr\ObjectKladr**
 
 Объект КЛАДР
 
