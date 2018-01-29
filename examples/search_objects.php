@@ -3,7 +3,7 @@ include '../kladr.php';
 
 use Kladr\Api;
 use Kladr\Query;
-use Kladr\Object;
+use Kladr\ObjectKladr;
 use Kladr\ObjectType;
 
 $token = '51dfe5d42fb2b43e3300006e';

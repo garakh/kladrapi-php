@@ -78,8 +78,9 @@ class Api
 
 	/**
 	 * Возвращает результат запроса к сервису в виде массива объектов
+	 *
 	 * @param \Kladr\Query $query Объект запроса
-	 * @return \Kladr\Object[]
+	 * @return \Kladr\ObjectKladr[]
 	 */
 	public function QueryToObjects(Query $query)
 	{
@@ -95,7 +96,7 @@ class Api
 
 		$arObjects = array();
 		foreach ($obResult->result as $obObject) {
-			$arObjects[] = new Object($obObject);
+			$arObjects[] = new ObjectKladr($obObject);
 		}
 
 		return $arObjects;
@@ -110,18 +111,31 @@ class Api
 	}
 }
 
+/*
+ * It has been replaced by [[ObjectKladr]] because `object` has become a reserved word which can not be
+ * used as class name in PHP 7.2.
+ *
+ * @deprecated, the class name `Object` is invalid since PHP 7.2, use [[ObjectKladr]] instead.
+ * @see https://wiki.php.net/rfc/object-typehint
+ */
+class Object extends ObjectKladr
+{
+
+}
+
 /**
  * Объект КЛАДР
- * @property-read string          $Id          Идентификатор объекта
- * @property-read string          $Name        Название объекта
- * @property-read string          $Zip         Почтовый индекс объекта
- * @property-read string          $Type        Тип объекта полностью (область, район)
- * @property-read string          $TypeShort   Тип объекта коротко (обл, р-н)
- * @property-read string          $ContentType Тип объекта из перечисления ObjectType
- * @property-read string          $Okato       ОКАТО объекта
- * @property-read \Kladr\Object[] $Parents     Массив родительских объектов
+ *
+ * @property-read string               $Id          Идентификатор объекта
+ * @property-read string               $Name        Название объекта
+ * @property-read string               $Zip         Почтовый индекс объекта
+ * @property-read string               $Type        Тип объекта полностью (область, район)
+ * @property-read string               $TypeShort   Тип объекта коротко (обл, р-н)
+ * @property-read string               $ContentType Тип объекта из перечисления ObjectType
+ * @property-read string               $Okato       ОКАТО объекта
+ * @property-read \Kladr\ObjectKladr[] $Parents     Массив родительских объектов
  */
-class Object
+class ObjectKladr
 {
 	private $id;
 	private $name;
@@ -149,7 +163,7 @@ class Object
 
 		if (isset($obObject->parents)) {
 			foreach ($obObject->parents as $obParent) {
-				$this->arParents[] = new Object($obParent);
+				$this->arParents[] = new ObjectKladr($obParent);
 			}
 		}
 	}
