@@ -79,7 +79,7 @@ class Api
 	/**
 	 * Возвращает результат запроса к сервису в виде массива объектов
 	 * @param \Kladr\Query $query Объект запроса
-	 * @return \Kladr\Object[]
+	 * @return \Kladr\KladrObject[]
 	 */
 	public function QueryToObjects(Query $query)
 	{
@@ -95,7 +95,7 @@ class Api
 
 		$arObjects = array();
 		foreach ($obResult->result as $obObject) {
-			$arObjects[] = new Object($obObject);
+			$arObjects[] = new KladrObject($obObject);
 		}
 
 		return $arObjects;
@@ -119,9 +119,9 @@ class Api
  * @property-read string          $TypeShort   Тип объекта коротко (обл, р-н)
  * @property-read string          $ContentType Тип объекта из перечисления ObjectType
  * @property-read string          $Okato       ОКАТО объекта
- * @property-read \Kladr\Object[] $Parents     Массив родительских объектов
+ * @property-read \Kladr\KladrObject[] $Parents     Массив родительских объектов
  */
-class Object
+class KladrObject
 {
 	private $id;
 	private $name;
@@ -149,7 +149,7 @@ class Object
 
 		if (isset($obObject->parents)) {
 			foreach ($obObject->parents as $obParent) {
-				$this->arParents[] = new Object($obParent);
+				$this->arParents[] = new KladrObject($obParent);
 			}
 		}
 	}
